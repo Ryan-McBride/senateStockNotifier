@@ -71,7 +71,7 @@ const prepareEmail = ((content) => {
       </head>
       <body>
         <table><tr><th>Ticker</th><th>Type</th></tr>${htmlified}</table>
-      </body>
+      </body>;
     </html>
     `;
 });
@@ -93,10 +93,10 @@ const fileOutput = {
 getReports('https://senate-stock-watcher-data.s3-us-west-2.amazonaws.com/aggregate/filemap.xml')
   .then((reports) => convertReports(reports.data))
   .then((converted) => {
+    fileOutput.senate = _.clone(converted);
     const newReports = getNewReports(converted, 'senate');
     if (newReports.length > 0) {
       changed.senate = true;
-      fileOutput.senate = converted;
     }
     return getTransactions(newReports, 'https://senate-stock-watcher-data.s3-us-west-2.amazonaws.com');
   })
@@ -107,10 +107,10 @@ getReports('https://senate-stock-watcher-data.s3-us-west-2.amazonaws.com/aggrega
   .then(() => getReports('https://house-stock-watcher-data.s3-us-west-2.amazonaws.com/data/filemap.xml'))
   .then((reports) => convertReports(reports.data))
   .then((converted) => {
+    fileOutput.house = _.clone(converted);
     const newReports = getNewReports(converted, 'house');
     if (newReports.length > 0) {
-      changed.senate = true;
-      fileOutput.house = converted;
+      changed.house = true;
     }
     return getTransactions(newReports, 'https://house-stock-watcher-data.s3-us-west-2.amazonaws.com');
   })
@@ -133,5 +133,3 @@ getReports('https://senate-stock-watcher-data.s3-us-west-2.amazonaws.com/aggrega
       console.log('no new reports');
     }
   });
-
-// almost there but it's not updating the snapshot or something
