@@ -1,0 +1,5 @@
+{
+  "user": "email with @ replaced with %40",
+  "pass": "password ",
+  "toUser": "to address (no need to replace @)"
+}
