@@ -35,7 +35,7 @@ const getTransactions = (reports, url) => Promise.all(reports.map((report) => ax
 const getNewReports = (converted, type) => {
   const newReports = [];
   const snapshot = getSnapshot(type);
-  while (!_.isEqual(converted, snapshot)) {
+  while (converted[0] !== snapshot[0]) {
     newReports.push(converted.shift());
   }
   return newReports;
